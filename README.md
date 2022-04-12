@@ -14,5 +14,5 @@ To install, clone the repository to the VSCode extensions folder.
 
 ### Windows
 ```
-git clone "https://github.com/JoeJanickiChSh/EventDeployExtension.git" C:\Users\Public\wpilib\2022\vscode\data\extensions\
+git clone "https://github.com/JoeJanickiChSh/EventDeployExtension.git" C:\Users\Public\wpilib\2022\vscode\data\extensions\EventDeployExtension
 ```
