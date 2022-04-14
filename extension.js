@@ -3,9 +3,12 @@ const cp = require("child_process")
 
 const branchPrefix = "event"
 
+
 /**
  * @param {vscode.ExtensionContext} context
  */
+
+const windowOut = vscode.window.createOutputChannel('Event Deploy');
 function activate(context) {
 
 	function runCommand(command, callback) {
@@ -17,12 +20,14 @@ function activate(context) {
 	context.subscriptions.push(vscode.commands.registerCommand("event-deploy.deploy", function () {
 		runCommand("git branch --show-current", branch => {
 			if (!branch.startsWith(branchPrefix)) {
-				vscode.window.showErrorMessage("Current branch \"" + branch.trim() + "\" is not a valid event branch.")
+				windowOut.appendLine("Current branch '" + branch.trim() + '" is not a valid event branch.')
+				vscode.commands.executeCommand("wpilibcore.deployCode")
+
 			} else {
-				var commitMessage = "Update at \"" + new Date().toLocaleString() + "\""
+				var commitMessage = "Update at '" + new Date().toLocaleString() + "'"
 
 				runCommand("git add -A", () => {
-					runCommand("git commit -m '" + commitMessage + "'", () => {
+					runCommand('git commit -m "' + commitMessage + '"', () => {
 						vscode.commands.executeCommand("wpilibcore.deployCode")
 					})
 				})
