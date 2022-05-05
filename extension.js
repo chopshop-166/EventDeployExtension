@@ -17,6 +17,8 @@ function activate(context) {
 		})
 	}
 
+
+
 	context.subscriptions.push(vscode.commands.registerCommand("event-deploy.deploy", function () {
 		runCommand("git branch --show-current", branch => {
 			if (!branch.startsWith(branchPrefix)) {
@@ -25,12 +27,25 @@ function activate(context) {
 
 			} else {
 				var commitMessage = "Update at '" + new Date().toLocaleString() + "'"
-
-				runCommand("git add -A", () => {
-					runCommand('git commit -m "' + commitMessage + '"', () => {
-						vscode.commands.executeCommand("wpilibcore.deployCode")
+				vscode.window.showInputBox().then((input) => {
+					if (input === undefined) {
+						return;
+					}
+					if (input != '') {
+						commitMessage = input;
+					}
+					runCommand("git add -A", () => {
+						runCommand('git commit -m "' + commitMessage + '"', () => {
+							vscode.commands.executeCommand("wpilibcore.deployCode")
+						})
 					})
-				})
+
+				});
+
+
+
+
+
 			}
 		})
 	}))
